@@ -1,0 +1,11 @@
+{
+  "hooks": {
+    "sockets": false,
+    "pubsub": false,
+    "session": false,
+    "grunt": false 
+  },
+  "generators": {
+    "modules": {}
+  }
+}

@@ -108,9 +108,10 @@ function updateToplistData() {
                 return;
             }
             let receivedData = JSON.parse(bd);
+            console.log(receivedData);
             let count = 0;
             let updatedList = [];
-            receivedData.forEach((element) => {
+            [...receivedData].forEach((element) => {
                 let ticker = convert.parseTicker(element.symbol);
                 if(offeringList.includes(ticker) && count < 25) {
                     updatedList.push(ticker);

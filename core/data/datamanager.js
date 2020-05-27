@@ -102,7 +102,18 @@ function updateToplistData() {
         /**
          * By Market Cap
          */
-        request.get(COINMARKETCAP_API + 'ticker/?start=0&limit=100', (err, resp, bd) => {
+        request({
+            headers: {
+                'X-CMC_PRO_API_KEY': '1baa8b9a-70d6-42d3-8314-efc997ee707d'
+            },
+            uri: 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest',
+            qs: {
+                'start': '1',
+                'limit': '100',
+                'convert': 'USD,BTC'
+            },
+            method: 'GET'
+        }, (err, resp, bd) => {
             if(err || !bd) {
                 console.log(err);
                 return;
@@ -111,7 +122,7 @@ function updateToplistData() {
             console.log(receivedData);
             let count = 0;
             let updatedList = [];
-            [...receivedData].forEach((element) => {
+            receivedData.forEach((element) => {
                 let ticker = convert.parseTicker(element.symbol);
                 if(offeringList.includes(ticker) && count < 25) {
                     updatedList.push(ticker);
@@ -122,6 +133,7 @@ function updateToplistData() {
             // persist to memory
             toplistMarketCap = updatedList;
         });
+
         /**
          * By % Change
          */

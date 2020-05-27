@@ -102,7 +102,7 @@ function updateToplistData() {
         /**
          * By Market Cap
          */
-        request({
+        /**request({
             headers: {
                 'X-CMC_PRO_API_KEY': '1baa8b9a-70d6-42d3-8314-efc997ee707d'
             },
@@ -132,7 +132,8 @@ function updateToplistData() {
 
             // persist to memory
             toplistMarketCap = updatedList;
-        });
+        });*/
+        toplistMarketCap = [];
 
         /**
          * By % Change

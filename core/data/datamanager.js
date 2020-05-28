@@ -133,7 +133,19 @@ function updateToplistData() {
             // persist to memory
             toplistMarketCap = updatedList;
         });*/
-        toplistMarketCap = [];
+        let receivedData = JSON.parse(fs.readFileSync(relativeDir + 'util/coinmarketcap.json'));
+
+        let count = 0;
+        let updatedList = [];
+        receivedData.forEach((element) => {
+            let ticker = convert.parseTicker(element.symbol);
+            if(offeringList.includes(ticker) && count < 25) {
+                updatedList.push(ticker);
+                count++;
+            }
+        });
+
+        toplistMarketCap = updatedList;
 
         /**
          * By % Change
@@ -201,7 +213,17 @@ function updateToplistData() {
  * Update Volume data 
  */
 function updateVolumeData() {
-    request.get(COINMARKETCAP_API + 'ticker', (err, resp, bd) => {
+    let receivedData = JSON.parse(fs.readFileSync(relativeDir + 'util/coinmarketcap.json'));
+    let dataToReturn = [];
+    receivedData.forEach((element) => {
+        let key = '24h_volume_usd';
+        let ticker = convert.parseTicker(element.symbol);
+        dataToReturn.push({ticker: ticker, volume: element[key]}); 
+    });
+
+    // persist to memory
+    coinmarketcapData = dataToReturn;
+    /**request.get(COINMARKETCAP_API + 'ticker', (err, resp, bd) => {
         if(err || !bd) {
             console.log(err);
             return;
@@ -218,7 +240,7 @@ function updateVolumeData() {
         coinmarketcapData = dataToReturn;
 
         sails.log.debug("Volume Data loaded successfully");
-    });
+    });*/
 }
 
 /**
